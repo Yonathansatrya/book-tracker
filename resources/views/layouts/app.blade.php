@@ -6,131 +6,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
-    <title>Document</title>
+    <title>@yield('title', 'Goodreads')</title>
 </head>
 
 <body>
-    <header>
-        <nav class="bg-gray-800">
-            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                <div class="relative flex h-16 items-center justify-between">
-                    <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                        <!-- Mobile menu button-->
-                        <button type="button"
-                            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
-                            aria-controls="mobile-menu" aria-expanded="false">
-                            <span class="absolute -inset-0.5"></span>
-                            <span class="sr-only">Open main menu</span>
-                            <!--
-                      Icon when menu is closed.
+    <header class="sticky top-0 z-50 bg-white">
+        <nav class="shadow-sm py-3 flex items-center justify-between">
+            <div class="px-15">
+                <a href="/">
+                    <img src="{{ asset('logo.svg') }}" alt="BookTracker" class="h-6">
+                </a>
+            </div>
 
-                      Menu open: "hidden", Menu closed: "block"
-                    -->
-                            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                            </svg>
-                            <!--
-                      Icon when menu is open.
+            @auth
+                <div class="hidden px-8 lg:flex gap-x-6 items-center">
+                    <a href="{{ route('dashboard.user') }}" class="text-sm font-semibold text-black">Home</a>
+                    <a href="{{ route('my-books.index') }}" class="text-sm font-semibold text-black">My Books</a>
+                    <a href="{{ route('books.index') }}" class="text-sm font-semibold text-black">Browse</a>
+                    <a href="#" class="text-sm font-semibold text-black">Community</a>
+                </div>
+            @endauth
 
-                      Menu open: "block", Menu closed: "hidden"
-                    -->
-                            <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div class="flex shrink-0 items-center">
-                            <img class="h-8 w-auto"
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                                alt="Your Company">
-                        </div>
-                        <div class="hidden sm:ml-6 sm:block">
-                            <div class="flex space-x-4">
-                                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                                <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-                                    aria-current="page">Dashboard</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-                                <a href="#"
-                                    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <button type="button"
-                            class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
-                            <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">View notifications</span>
-                            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                aria-hidden="true" data-slot="icon">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                            </svg>
-                        </button>
-
-                        <!-- Profile dropdown -->
-                        <div class="relative ml-3">
-                            <div>
-                                <button type="button"
-                                    class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-                                    id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                                    <span class="absolute -inset-1.5"></span>
-                                    <span class="sr-only">Open user menu</span>
-                                    <img class="size-8 rounded-full"
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                        alt="">
-                                </button>
-                            </div>
-
-                            <!--
-                      Dropdown menu, show/hide based on menu state.
-
-                      Entering: "transition ease-out duration-100"
-                        From: "transform opacity-0 scale-95"
-                        To: "transform opacity-100 scale-100"
-                      Leaving: "transition ease-in duration-75"
-                        From: "transform opacity-100 scale-100"
-                        To: "transform opacity-0 scale-95"
-                    -->
-                            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden"
-                                role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-                                tabindex="-1">
-                                <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                                    id="user-menu-item-0">Your Profile</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                                    id="user-menu-item-1">Settings</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                                    id="user-menu-item-2">Sign out</a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="hidden sm:flex items-center flex-1 max-w-2xl">
+                <div class="relative flex-1">
+                    <input type="text" placeholder="Need help finding your book ?"
+                        class="w-full pl-10 pr-10 py-2 rounded-md bg-gray-100 text-sm text-gray-700 focus:outline-none" />
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M6 9.5A2 2 0 0 1 7.937 11H13.5a.5.5 0 0 1 .09.992L13.5 12l-5.563.001a2 2 0 0 1-3.874 0L2.5 12a.5.5 0 0 1-.09-.992L2.5 11h1.563A2 2 0 0 1 6 9.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2m4-8A2 2 0 0 1 11.937 4H13.5a.5.5 0 0 1 .09.992L13.5 5l-1.563.001a2 2 0 0 1-3.874 0L2.5 5a.5.5 0 0 1-.09-.992L2.5 4h5.563A2 2 0 0 1 10 2.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2" />
+                    </svg>
                 </div>
             </div>
 
-            <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="sm:hidden" id="mobile-menu">
-                <div class="space-y-1 px-2 pt-2 pb-3">
-                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                    <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-                        aria-current="page">Dashboard</a>
-                    <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
-                    <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-                    <a href="#"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+            {{-- <div class="hidden md:flex items-center max-w-md flex-1 mx-4">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Need help finding your book?"
+                        class="w-full pl-10 pr-10 py-2 rounded-md bg-gray-100 text-sm text-gray-700 focus:outline-none" />
+                    <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16" />
+                    </svg>
                 </div>
+            </div> --}}
+
+            <div class="flex px-15 items-center gap-3">
+                @auth
+                    <button type="button"
+                        class="relative rounded-full p-1 text-black hover:text-[] focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View notifications</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 256 256">
+                            <path fill="currentColor"
+                                d="M218.35 178c-5.77-10-14.35-37.87-14.35-74a76 76 0 1 0-152 0c0 36.13-8.59 64-14.36 73.95A12 12 0 0 0 48 196h44.23a36 36 0 0 0 71.54 0H208a12 12 0 0 0 10.35-18M128 220a28 28 0 0 1-27.71-24h55.42A28 28 0 0 1 128 220m83.45-34a3.91 3.91 0 0 1-3.44 2H48a3.91 3.91 0 0 1-3.44-2a4 4 0 0 1 0-4C52 169.17 60 139.32 60 104a68 68 0 1 1 136 0c0 35.31 8 65.17 15.44 78a4 4 0 0 1 .01 4" />
+                        </svg>
+                    </button>
+                    <div class="relative">
+                        <button id="user-menu-toggle" class="focus:outline-none">
+                            <img class="w-8 h-8 rounded-full" src="https://i.pravatar.cc/300" alt="Avatar">
+                        </button>
+                        <div id="user-menu"
+                            class="hidden absolute right-0 z-50 mt-2 w-48 bg-white shadow-md rounded-md py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your
+                                Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
+                                    Out</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <div class="hidden sm:hidden md:flex gap-2">
+                        <a href="{{ route('login') }}"
+                            class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 text-sm">Sign In</a>
+                        <a href="{{ route('register') }}"
+                            class="bg-amber-800 text-white px-4 py-2 rounded hover:bg-amber-700 text-sm">Sign Up</a>
+                    </div>
+                @endauth
+
+                <button id="mobile-menu-btn" class="md:hidden ml-2 focus:outline-none">
+                    <svg class="w-6 h-6 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
         </nav>
+
+        <div id="mobile-menu" class="hidden lg:hidden px-6 mt-2 space-y-2 pb-4">
+            @auth
+                <a href="{{ route('dashboard.user') }}" class="block text-sm font-semibold text-black">Home</a>
+                <a href="{{ route('genres.index') }}" class="block text-sm font-semibold text-black">My Books</a>
+                <a href="{{ route('books.index') }}" class="block text-sm font-semibold text-black">Browse</a>
+                <a href="{{ route('books.index') }}" class="block text-sm font-semibold text-black">Community</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-left text-sm font-semibold text-black">Sign Out</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}"
+                    class="block bg-amber-800 text-white py-2 px-4 rounded text-sm text-center hover:bg-amber-700">Sign
+                    In</a>
+                <a href="{{ route('register') }}"
+                    class="block bg-amber-800 text-white py-2 px-4 rounded text-sm text-center hover:bg-amber-700">Sign
+                    Up</a>
+
+                <div class="relative items-center flex-1">
+                    <input type="text" placeholder="Need help finding your book ?"
+                        class="w-full pl-10 pr-10 py-2 rounded-md bg-gray-100 text-sm text-gray-700 focus:outline-none" />
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        viewBox="0 0 16 16" fill="currentColor">
+                        <path
+                            d="M6 9.5A2 2 0 0 1 7.937 11H13.5a.5.5 0 0 1 .09.992L13.5 12l-5.563.001a2 2 0 0 1-3.874 0L2.5 12a.5.5 0 0 1-.09-.992L2.5 11h1.563A2 2 0 0 1 6 9.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2m4-8A2 2 0 0 1 11.937 4H13.5a.5.5 0 0 1 .09.992L13.5 5l-1.563.001a2 2 0 0 1-3.874 0L2.5 5a.5.5 0 0 1-.09-.992L2.5 4h5.563A2 2 0 0 1 10 2.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2" />
+                    </svg>
+                </div>
+            @endauth
+        </div>
     </header>
+
+    <div class="mx-auto bg-white">
+        @yield('content')
+    </div>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        const userMenuToggle = document.getElementById('user-menu-toggle');
+        const userMenu = document.getElementById('user-menu');
+
+        if (userMenuToggle) {
+            userMenuToggle.addEventListener('click', function() {
+                userMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!userMenu.contains(e.target) && !userMenuToggle.contains(e.target)) {
+                    userMenu.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+    <style>
+        body {
+            font-family: var(--font-Outfit);
+        }
+    </style>
 </body>
 
 </html>

@@ -20,7 +20,7 @@ class LoginController extends Controller
         ]);
 
         if (auth()->attempt($request->only('email', 'password'))) {
-            return redirect()->intended('/home')->with('success', 'Login successful!');
+            return redirect()->route('dashboard.user')->with('success', 'Login successful!');
         }
 
         return back()->withErrors([
@@ -31,6 +31,6 @@ class LoginController extends Controller
     public function logout()
     {
         auth()->logout();
-        return redirect('/')->with('success', 'Logout successful!');
+        return redirect()->route('login')->with('success', 'Logout successful!');
     }
 }
