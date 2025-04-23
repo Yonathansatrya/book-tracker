@@ -1,4 +1,4 @@
-<section class="bg-white py-16">
+<section class="bg-white py-4">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
             <h1 class="text-4xl md:text-5xl font-bold font-serif leading-tight mb-6">
@@ -32,12 +32,26 @@
         </div>
     </div>
 
-    <div class="mt-20 grid grid-cols-6 md:grid-cols-12">
-        <div class="h-4 bg-amber-100 col-span-2"></div>
-        <div class="h-4 bg-amber-300 col-span-2"></div>
-        <div class="h-4 bg-orange-400 col-span-2"></div>
-        <div class="h-4 bg-red-500 col-span-2"></div>
-        <div class="h-4 bg-pink-600 col-span-2"></div>
-        <div class="h-4 bg-purple-900 col-span-2"></div>
+    <div class="max-w-full mx-auto">
+        <div class="grid grid-cols-2">
+            <div class="h-4 bg-[#FEBE27]/70"></div>
+            <div class="h-4 bg-yellow-400"></div>
+        </div>
+
+        <div>
+            <div class="h-4 bg-rose-200 w-[30%]"></div>
+            <div class="h-4 bg-orange-500 w-[70%]"></div>
+        </div>
+
+        <div>
+            <div class="h-4 bg-rose-300 w-[20%]"></div>
+            <div class="h-4 bg-red-500 w-[80%]"></div>
+        </div>
+        <div>
+
+            <div class="h-4 bg-pink-300 w-[15%]"></div>
+            <div class="h-4 bg-pink-700 w-[85%]"></div>
+        </div>
+        <div class="h-4 bg-purple-800 w-full"></div>
     </div>
 </section>

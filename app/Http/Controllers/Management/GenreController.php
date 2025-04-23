@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\ManagementBook;
+namespace App\Http\Controllers\Management;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;

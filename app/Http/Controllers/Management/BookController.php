@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\ManagementBook;
+namespace App\Http\Controllers\Management;
 
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\Author;
 use App\Models\UserBook;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,26 +14,33 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
+        $books = Book::with(['genres', 'authors'])->get();
         return view('management_book.books.index', compact('books'));
+    }
+
+    public function show()
+    {
+        $books = Book::all();
+        return view('management_book.books.show', compact('books'));
     }
 
     public function create()
     {
+        $authors = Author::all();
         $genres = Genre::all();
-        return view('management_book.books.create', compact('genres'));
+        return view('management_book.books.create', compact('genres', 'authors'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
             'published_year' => 'required|integer',
             'total_page' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'genre_ids' => 'required|array',
+            'author_ids' => 'required|array',
             'average_rating' => 'nullable|numeric|min:0|max:5',
             'ratings_count' => 'nullable|integer|min:0',
         ]);
@@ -45,7 +53,6 @@ class BookController extends Controller
 
         $book = Book::create([
             'title' => $request->title,
-            'author' => $request->author,
             'published_year' => $request->published_year,
             'total_page' => $request->total_page,
             'description' => $request->description,
@@ -58,25 +65,30 @@ class BookController extends Controller
             $book->genres()->attach($request->genre_ids);
         }
 
+        if ($request->has('author_ids')) {
+            $book->authors()->attach($request->author_ids);
+        }
+
         return redirect()->route('books.index')->with('success', 'Buku berhasil ditambahkan!');
     }
 
     public function edit(Book $book)
     {
+        $authors = Author::all();
         $genres = Genre::all();
-        return view('management_book.books.edit', compact('book', 'genres'));
+        return view('management_book.books.edit', compact('book', 'genres', 'authors'));
     }
 
     public function update(Request $request, Book $book)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
             'total_page' => 'required|integer|min:0',
             'published_year' => 'required|integer',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'genre_ids' => 'required|array',
+            'author_ids' => 'required|array',
             'average_rating' => 'nullable|numeric|min:0|max:5',
             'ratings_count' => 'nullable|integer|min:0',
         ]);
@@ -93,7 +105,6 @@ class BookController extends Controller
 
         $book->update([
             'title' => $request->title,
-            'author' => $request->author,
             'published_year' => $request->published_year,
             'total_page' => $request->total_page,
             'description' => $request->description,
@@ -103,6 +114,7 @@ class BookController extends Controller
         ]);
 
         $book->genres()->sync($request->genre_ids);
+        $book->authors()->sync($request->author_ids);
 
         return redirect()->route('books.index')->with('success', 'Buku berhasil diperbarui!');
     }
@@ -113,6 +125,7 @@ class BookController extends Controller
             Storage::delete('public/' . $book->cover_image);
         }
 
+        $book->authors()->detach();
         $book->genres()->detach();
         $book->delete();
 

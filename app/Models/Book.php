@@ -9,24 +9,27 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'author',
-        'total_page',
-        'published_year',
-        'average_rating',
-        'ratings_count',
-        'description',
-        'cover_image'
-    ];
+    protected $fillable = ['title', 'published_year', 'total_page', 'average_rating', 'ratings_count', 'description', 'cover_image'];
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class, 'book_genre');
+        return $this->belongsToMany(Genre::class, 'book_genres');
     }
 
-    public function trackers()
+    public function authors()
     {
-        return $this->hasMany(BookTracker::class);
+        return $this->belongsToMany(Author::class, 'book_author');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'book_users')
+                    ->withPivot('status', 'last_read_page', 'rating', 'started_at', 'finished_at')
+                    ->withTimestamps();
+    }
+
+    public function owners()
+    {
+        return $this->belongsToMany(User::class, 'user_books');
     }
 }

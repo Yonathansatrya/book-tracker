@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('book_genre', function (Blueprint $table) {
+        Schema::create('genres', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->foreignId('genre_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
-    }    
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_genre');
+        Schema::dropIfExists('genres');
     }
 };

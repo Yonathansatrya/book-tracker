@@ -12,6 +12,9 @@ class clear extends Command
 
     public function handle()
     {
+        $this->call('optimize');
+        $this->info('Clearing optimize...');
+        
         $this->info('Clearing cache...');
         $this->call('cache:clear');
         $this->info('Cache cleared successfully.');
@@ -27,8 +30,5 @@ class clear extends Command
         $this->info('Clearing view cache...');
         $this->call('view:clear');
         $this->info('View cache cleared successfully.');
-
-        $this->call('optimize');
-        $this->info('Clearing compiled views...');
     }
 }

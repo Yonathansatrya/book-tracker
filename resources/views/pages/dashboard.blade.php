@@ -32,31 +32,31 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 <div class="text-center">
-                    <img src="http://127.0.0.1:8000/dashboard/book_1.svg" class="w-full h-40 object-cover rounded mb-2"
+                    <img src="http://127.0.0.1:8000/dashboard-assets/book_1.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
                     <p class="text-xs font-semibold">Hypocrite World</p>
                     <p class="text-xs text-gray-600">By Sophia Hill</p>
                 </div>
                 <div class="text-center">
-                    <img src="http://127.0.0.1:8000/dashboard/book_2.svg" class="w-full h-40 object-cover rounded mb-2"
+                    <img src="http://127.0.0.1:8000/dashboard-assets/book_2.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
                     <p class="text-xs font-semibold">The Lady Beauty Scarlett</p>
                     <p class="text-xs text-gray-600">By Arthur Doyle</p>
                 </div>
                 <div class="text-center">
-                    <img src="http://127.0.0.1:8000/dashboard/book_3.svg" class="w-full h-40 object-cover rounded mb-2"
+                    <img src="http://127.0.0.1:8000/dashboard-assets/book_3.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
                     <p class="text-xs font-semibold">Your Simple Book Cover</p>
                     <p class="text-xs text-gray-600">By Ken Adams</p>
                 </div>
                 <div class="text-center">
-                    <img src="http://127.0.0.1:8000/dashboard/book_4.svg" class="w-full h-40 object-cover rounded mb-2"
+                    <img src="http://127.0.0.1:8000/dashboard-assets/book_4.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
                     <p class="text-xs font-semibold">Great Travel At Dessert</p>
                     <p class="text-xs text-gray-600">By Sanchit Howdi</p>
                 </div>
                 <div class="text-center">
-                    <img src="http://127.0.0.1:8000/dashboard/book_5.svg" class="w-full h-40 object-cover rounded mb-2"
+                    <img src="http://127.0.0.1:8000/dashboard-assets/book_5.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
                     <p class="text-xs font-semibold">Secrets in a silicon valley startups</p>
                     <p class="text-xs text-gray-600">By Sanchit Howdi</p>
@@ -72,17 +72,13 @@
 
             <div class="bg-gray-100 py-5 rounded-[3px] flex flex-col items-center justify-center">
                 <div class="relative w-32 h-32">
-                    <div
-                        class="absolute inset-0 border-8 border-b-transparent border-t-transparent border-l-transparent border-r-transparent rounded-full">
-                    </div>
-
                     <div class="absolute inset-0 rotate-[calc(var(--rotate,0)*1deg)]">
                         <div class="w-32 h-32 border-8 border-b-transparent border-t-transparent border-l-transparent border-r-amber-700 rounded-full transform rotate-[-90deg] origin-center"
                             style="--rotate: 120;"></div>
                     </div>
 
                     <div
-                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-sm text-gray-700 leading-tight">
+                        class="absolute w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-sm text-gray-700">
                         <p class="text-sm text-gray-800">2 <span class="text-xs">books completed</span></p>
                         <p class="text-sm text-gray-800">4 <span class="text-xs">behind schedule</span></p>
                     </div>

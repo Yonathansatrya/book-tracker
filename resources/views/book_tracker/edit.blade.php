@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4">
         <h1 class="text-2xl font-bold mb-4">Edit Tracking Buku</h1>
-        <form action="{{ route('book_trackers.update', $tracker) }}" method="POST">
+        <form action="{{ route('book-trackers.update', $tracker) }}" method="POST">
             @method('PUT')
             @csrf
 
@@ -55,7 +55,7 @@
             </div>
 
             <button type="submit" class="bg-amber-700 text-white px-4 py-2 rounded-[4px]">Simpan</button>
-            <a href="{{ route('book_trackers.index') }}" class="bg-amber-700 text-white font-semibold px-4 py-2 rounded-[4px]">Kembali</a>
+            <a href="{{ route('book-trackers.index') }}" class="bg-amber-700 text-white font-semibold px-4 py-2 rounded-[4px]">Kembali</a>
         </form>
     </div>
 @endsection

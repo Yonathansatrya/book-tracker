@@ -1,49 +1,56 @@
 @extends('layouts.app')
 
-@section('title', 'Books')
-
+@section('title', 'Libary - Book')
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Books</h1>
-    <a href="{{ route('books.create') }}" class="text-blue-500 underline">+ Add Book</a>
-    <div class="">
-        <thead>
-            <table class="table-auto
-                w-full mt-4 border-collapse border border-gray-300">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">#</th>
-                    <th class="border border-gray-300 px-4 py-2">Title</th>
-                    <th class="border border-gray-300 px-4 py-2">Author</th>
-                    <th class="border border-gray-300 px-4 py-2">Genre</th>
-                    <th class="border border-amber-700 px-4 py-3">Total Halaman</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-                <tbody>
-                    @foreach ($books as $index => $book)
-                        <tr>
-                            <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $book->title }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $book->author }}</td>
-                            <td class="border border-gray-300 px-4 py-2">
-                                @foreach ($book->genres as $genre)
-                                    <span class="text-sm text-gray-600">{{ $genre->name }}</span>
-                                    @if (!$loop->last)
-                                        <span class="text-sm text-gray-600">, </span>
-                                    @endif
-                                @endforeach
-                            <td class="border border-amber-700 px-4 py-3">{{ $book->total_page }}</td>
-                            <td class="border border-gray-300 px-4 py-2">
-                                <a href="{{ route('books.edit', $book) }}" class="text-yellow-500 underline ml-2">Edit</a>
-                                <form action="{{ route('books.destroy', $book) }}" method="POST" class="inline-block ml-2">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 underline"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </thead>
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Daftar Buku</h2>
+
+    <div class="mb-4">
+        <a href="{{ route('books.create') }}" class="px-4 py-2 bg-amber-700 text-white rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            Tambah Buku Baru
+        </a>
     </div>
+
+    <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+        <table class="w-full text-left table-auto">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Judul Buku</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Tahun Terbit</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Jumlah Halaman</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Genre</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Author</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($books as $book)
+                <tr class="border-t border-gray-200">
+                    <td class="px-4 py-2 text-sm text-gray-800">{{ $book->title }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-800">{{ $book->published_year }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-800">{{ $book->total_page }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-800">
+                        @foreach($book->genres as $genre)
+                            <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">{{ $genre->name }}</span>
+                        @endforeach
+                    </td>
+                    <td class="px-4 py-2 text-sm text-gray-800">
+                        @foreach($book->authors as $author)
+                            <span class="inline-block px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">{{ $author->name }}</span>
+                        @endforeach
+                    </td>
+                    <td class="px-4 py-2 text-sm text-gray-800">
+                        <a href="{{ route('books.edit', $book->id) }}" class="text-indigo-600 hover:text-indigo-800">Edit</a> |
+                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 hover:text-red-800">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection

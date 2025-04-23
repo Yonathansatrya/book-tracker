@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('author');
+            $table->string('title')->unique();
             $table->integer('published_year');
-            $table->integer('total_page')->nullable();
+            $table->integer('total_page');
             $table->float('average_rating')->nullable();
             $table->integer('ratings_count')->nullable();
             $table->text('description')->nullable();
@@ -24,7 +23,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

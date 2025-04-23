@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <title>@yield('title', 'Goodreads')</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
 </head>
 
 <body>
@@ -21,13 +23,13 @@
             @auth
                 <div class="hidden px-8 lg:flex gap-x-6 items-center">
                     <a href="{{ route('dashboard.user') }}" class="text-sm font-semibold text-black">Home</a>
-                    <a href="{{ route('my-books.index') }}" class="text-sm font-semibold text-black">My Books</a>
+                    <a href="{{ route('my-books') }}" class="text-sm font-semibold text-black">My Books</a>
                     <a href="{{ route('books.index') }}" class="text-sm font-semibold text-black">Browse</a>
                     <a href="#" class="text-sm font-semibold text-black">Community</a>
                 </div>
             @endauth
 
-            <div class="hidden sm:flex items-center flex-1 max-w-2xl">
+            <form method="GET" action="{{ route('books.index') }}" class="hidden sm:flex items-center flex-1 max-w-2xl">
                 <div class="relative flex-1">
                     <input type="text" placeholder="Need help finding your book ?"
                         class="w-full pl-10 pr-10 py-2 rounded-md bg-gray-100 text-sm text-gray-700 focus:outline-none" />
@@ -44,7 +46,8 @@
                             d="M6 9.5A2 2 0 0 1 7.937 11H13.5a.5.5 0 0 1 .09.992L13.5 12l-5.563.001a2 2 0 0 1-3.874 0L2.5 12a.5.5 0 0 1-.09-.992L2.5 11h1.563A2 2 0 0 1 6 9.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2m4-8A2 2 0 0 1 11.937 4H13.5a.5.5 0 0 1 .09.992L13.5 5l-1.563.001a2 2 0 0 1-3.874 0L2.5 5a.5.5 0 0 1-.09-.992L2.5 4h5.563A2 2 0 0 1 10 2.5m0 1a1 1 0 1 0 0 2a1 1 0 0 0 0-2" />
                     </svg>
                 </div>
-            </div>
+            </form>
+
 
             {{-- <div class="hidden md:flex items-center max-w-md flex-1 mx-4">
                 <div class="relative w-full">
