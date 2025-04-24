@@ -15,12 +15,18 @@
                         <img src="{{ asset('book_cover.svg') }}" alt="Book cover"
                             class="w-full h-46 object-cover rounded-[16px] mb-1 px-2" />
 
-                        <h3 class="text-lg font-bold text-gray-900">{{ $tracker->book->title }}</h3>
-                        <p class="text-sm text-gray-700 mb-2">By : {{ $tracker->book->author->name ?? 'Unknown' }}</p>
+                        <h3 class="text-xl font-bold text-gray-900">{{ $tracker->book->title }}</h3>
+                        <p class="text-md text-gray-700 mb-2">By: @foreach ($tracker->book->authors as $author)
+                                {{ $author->name }}@if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                        </p>
                         <p class="text-sm text-gray-600 mb-2">
                             Genre:
                             @foreach ($tracker->book->genres as $genre)
-                                <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded mb-2">{{ $genre->name }}</span>
+                                <span
+                                    class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded mb-2">{{ $genre->name }}</span>
                             @endforeach
                         </p>
                         <p class="text-sm text-gray-500 mb-2">Status: {{ $tracker->status }}</p>

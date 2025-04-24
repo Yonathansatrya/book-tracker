@@ -27,9 +27,13 @@ class PagesController extends Controller
         return view('pages.mybooks', compact('books', 'trackers', 'status'));
     }
 
-
     public function comunity()
     {
         return view('pages.community');
+    }
+
+    public function seacrh()
+    {
+        //
     }
 }

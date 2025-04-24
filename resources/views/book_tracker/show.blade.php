@@ -1,20 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Book Read')
-
+@section('title', 'Detail Book - ' . $tracker->book->title)
 @section('content')
-    {{-- <div class="flex justify-between items-center mb-6">
-        <a href="{{ route('my-books.index') }}"
-            class="inline-flex items-center bg-amber-700 text-white rounded-md px-4 py-2 text-sm font-semibold hover:bg-amber-800 transition">
-            ← Back
-        </a>
-        <a href="{{ route('my-books.index') }}"
-            class="inline-flex items-center bg-amber-700 text-white rounded-md px-4 py-2 text-sm font-semibold hover:bg-amber-800 transition">
-            Next →
-        </a>
-    </div> --}}
     <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow">
-
         <div class="flex flex-col md:flex-row gap-6">
 
             <div class="md:w-1/3">
@@ -23,8 +11,19 @@
 
             <div class="md:w-2/3">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">{{ $tracker->book->title }}</h2>
-                <p class="text-black mb-4">by {{ $tracker->book->author->name ?? 'Unknown' }}</p>
-
+                <p class="text-sm text-gray-600 mb-2">By: @foreach ($tracker->book->authors as $author)
+                        {{ $author->name }}@if (!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
+                </p>
+                <p class="text-sm text-gray-600 mb-2">Status: {{ $tracker->status }}</p>
+                <p class="text-sm text-gray-600 mb-2">Genre:
+                    @foreach ($tracker->book->genres as $genre)
+                        <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded mb-2">{{ $genre->name }}</span>
+                    @endforeach
+                </p>
+                <p class="text-sm text-gray-600 mb-2">Published: {{ $tracker->book->published_year }}</p>
                 <div class="mb-4">
                     <p class="text-sm text-gray-700">
                         Progress: <span class="font-semibold">{{ $tracker->last_read_page }}</span> /
@@ -39,46 +38,15 @@
                     <input type="number" name="last_read_page"
                         class="border rounded px-2 py-1 w-24 focus:outline-none focus:ring focus:border-blue-300"
                         placeholder="Page..." value="{{ $tracker->last_read_page }}">
+
                     <button type="submit"
                         class="bg-amber-700 text-white px-4 py-1 rounded-[4px] hover:bg-amber-800 transition">Update</button>
+
+                    <button type="button" onclick="showAddNoteModal({{ $tracker->id }})"
+                        class="bg-amber-700 text-white px-4 py-1 rounded-[4px] hover:bg-amber-800 transition">
+                        Tambah Catatan
+                    </button>
                 </form>
-
-                <div class="mt-2">
-                    <h4 class="text-lg font-semibold mb-2">Tambah Catatan</h4>
-                    <form action="{{ route('book-notes.store') }}" method="POST" class="space-y-4">
-                        @csrf
-                        <input type="hidden" name="book_user_id" value="{{ $tracker->id }}">
-                        <div class="grid grid-cols-3 items-center gap-2">
-                            <div>
-                                <label for="page_start" class="block text-sm font-medium text-gray-700 mb-1">Halaman</label>
-                                <input type="number" name="page_start" id="page_start"
-                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
-                                    required>
-                            </div>
-
-                            <div class="text-center mt-6 text-sm text-gray-600">
-                                Hingga
-                            </div>
-
-                            <div>
-                                <label for="page_end" class="block text-sm font-medium text-gray-700 mb-1">Halaman</label>
-                                <input type="number" name="page_end" id="page_end" placeholder="Opsional"
-                                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Catatan</label>
-                            <textarea name="notes" id="notes" rows="3"
-                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
-                                required></textarea>
-                        </div>
-
-                        <button type="submit"
-                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Simpan
-                            Catatan</button>
-                    </form>
-                </div>
             </div>
         </div>
 
@@ -93,13 +61,14 @@
                         <div class="p-4 rounded-lg bg-amber-700 shadow-md">
                             <div class="justify-between items-center">
                                 <div class="mb-4">
-                                    <h3 class="text-white text-lg font-semibold">Halaman {{ $note->page_start }} sampai {{ $note->page_end }}
+                                    <h3 class="text-white text-lg font-semibold">Halaman {{ $note->page_start }} sampai
+                                        {{ $note->page_end }}
                                     </h3>
                                     <p class="text-sm text-white ">{{ $note->notes }}</p>
                                 </div>
                                 <div class="flex gap-2">
-                                    {{-- {{ route('book-notes.edit', $note->id) }} --}}
                                     <a href="#"
+                                        onclick="showEditNoteModal({{ $note->id }}, {{ $note->page_start }}, {{ $note->page_end ?? 'null' }}, @js($note->notes) )"
                                         class="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                                         Edit
                                     </a>
@@ -112,43 +81,6 @@
                                             Delete
                                         </button>
                                     </form>
-
-                                    <script>
-                                        function confirmDelete(noteId) {
-                                            const swalWithBootstrapButtons = Swal.mixin({
-                                                customClass: {
-                                                    confirmButton: "btn btn-success",
-                                                    cancelButton: "btn btn-danger"
-                                                },
-                                                buttonsStyling: false
-                                            });
-
-                                            swalWithBootstrapButtons.fire({
-                                                title: "Are you sure?",
-                                                text: "You won't be able to revert this!",
-                                                icon: "warning",
-                                                showCancelButton: true,
-                                                confirmButtonText: "Yes, delete it!",
-                                                cancelButtonText: "No, cancel!",
-                                                reverseButtons: true
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    document.getElementById('delete-form-' + noteId).submit();
-                                                    swalWithBootstrapButtons.fire({
-                                                        title: "Deleted!",
-                                                        text: "Your note has been deleted.",
-                                                        icon: "success"
-                                                    });
-                                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                                    swalWithBootstrapButtons.fire({
-                                                        title: "Cancelled",
-                                                        text: "Your note is safe :)",
-                                                        icon: "error"
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -178,6 +110,162 @@
                 });
             });
         });
+
+        function showAddNoteModal(bookUserId) {
+            swal.fire({
+                title: "Tambah Catatan",
+                html: `
+                    <input type="number" id="page_start" class="swal2-input" placeholder="Halaman mulai">
+                    <input type="number" id="page_end" class="swal2-input" placeholder="Halaman akhir (opsional)">
+                    <textarea id="notes" class="swal2-textarea" placeholder="Catatan" rows="4"></textarea>
+                `,
+                confirmButtonText: "Simpan",
+                showCancelButton: true,
+                preConfirm: () => {
+                    const pageStart = document.getElementById('page_start').value;
+                    const pageEnd = document.getElementById('page_end').value;
+                    const notes = document.getElementById('notes').value;
+
+                    if (!pageStart || !notes) {
+                        Swal.showValidationMessage("Halaman mulai dan catatan tidak boleh kosong");
+                        return false;
+                    }
+
+                    const form = document.getElementById('form')
+                    form.innerHTML = '';
+                    const csrf = document.querySelector('input[name="_token"]').cloneNode();
+                    form.appendChild(csrf);
+                    form.method = 'POST';
+                    form.action = "{{ route('book-notes.store') }}";
+
+                    const userId = document.createElement('input');
+                    userId.type = 'hidden';
+                    userId.name = 'book_user_id';
+                    userId.value = bookUserId;
+                    form.appendChild(userId);
+
+                    const pageStartInput = document.createElement('input');
+                    pageStartInput.type = 'hidden';
+                    pageStartInput.name = 'page_start';
+                    pageStartInput.value = pageStart;
+                    form.appendChild(pageStartInput);
+
+                    const pageEndInput = document.createElement('input');
+                    pageEndInput.type = 'hidden';
+                    pageEndInput.name = 'page_end';
+                    pageEndInput.value = pageEnd;
+                    form.appendChild(pageEndInput);
+
+                    const notesInput = document.createElement('input');
+                    notesInput.type = 'hidden';
+                    notesInput.name = 'notes';
+                    notesInput.value = notes;
+                    form.appendChild(notesInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            })
+        }
+
+        function showEditNoteModal(noteId, pageStart, pageEnd, notes) {
+            Swal.fire({
+                title: "Edit Catatan",
+                html: `
+                    <input type="number" id="edit_page_start" class="swal2-input" placeholder="Halaman mulai" value="${pageStart}">
+                    <input type="number" id="edit_page_end" class="swal2-input" placeholder="Halaman akhir (opsional)" value="${pageEnd !== null ? pageEnd : ''}">
+                    <textarea id="edit_notes" class="swal2-textarea" placeholder="Catatan">${notes}</textarea>
+                `,
+                confirmButtonText: "Update",
+                showCancelButton: true,
+                preConfirm: () => {
+                    const newPageStart = document.getElementById('edit_page_start').value;
+                    const newPageEnd = document.getElementById('edit_page_end').value;
+                    const newNotes = document.getElementById('edit_notes').value;
+
+                    if (!newPageStart || !newNotes) {
+                        Swal.showValidationMessage("Halaman mulai dan catatan tidak boleh kosong");
+                        return false;
+                    }
+
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/book-notes/${noteId}`;
+
+                    const csrf = document.createElement('input');
+                    csrf.type = 'hidden';
+                    csrf.name = '_token';
+                    csrf.value = '{{ csrf_token() }}';
+                    form.appendChild(csrf);
+
+                    const method = document.createElement('input');
+                    method.type = 'hidden';
+                    method.name = '_method';
+                    method.value = 'PUT';
+                    form.appendChild(method);
+
+                    const inputStart = document.createElement('input');
+                    inputStart.type = 'hidden';
+                    inputStart.name = 'page_start';
+                    inputStart.value = newPageStart;
+                    form.appendChild(inputStart);
+
+                    const inputEnd = document.createElement('input');
+                    inputEnd.type = 'hidden';
+                    inputEnd.name = 'page_end';
+                    inputEnd.value = newPageEnd;
+                    form.appendChild(inputEnd);
+
+                    const inputNotes = document.createElement('input');
+                    inputNotes.type = 'hidden';
+                    inputNotes.name = 'notes';
+                    inputNotes.value = newNotes;
+                    form.appendChild(inputNotes);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+
+        function confirmDelete(noteId) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + noteId).submit();
+                    swalWithBootstrapButtons.fire({
+                        title: "Deleted!",
+                        text: "Your note has been deleted.",
+                        icon: "success"
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: "Cancelled",
+                        text: "Your note is safe :)",
+                        icon: "error"
+                    });
+                }
+            });
+        }
     </script>
 
+    {{-- di gunakan untuk add notes jangan di hapus --}}
+    <form id="form" method="POST" style="display: none;">
+        @csrf
+    </form>
 @endsection

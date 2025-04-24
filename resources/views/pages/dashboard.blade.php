@@ -12,7 +12,7 @@
                 </h2>
 
                 <div class="flex gap-4">
-                    <a href="{{ route('my-books.index') }}"
+                    <a href="{{ route('my-books') }}"
                         class="bg-[#61481C] text-white text-sm px-4 py-2 rounded-[4px] flex items-center gap-2">
                         View All Books
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24">
@@ -24,7 +24,7 @@
                             <use fill-rule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"></use>
                         </svg>
                     </a>
-                    <a href="{{ route('my-books.create') }}"
+                    <a href="{{ route('user-books.create') }}"
                         class="bg-white border border-[#61481C] text-[#61481C] text-sm px-4 py-2 rounded-[4px]">Add a
                         Book</a>
                 </div>
@@ -99,7 +99,7 @@
             Start exploring now!
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-3 rounded-[4px] bg-[#FFF2DE] gap-4 py-20 px-30">
-            <div class="bg-[#875C1A] hover:bg-amber-400 text-white p-6 rounded-[4px] shadow cursor-pointer">
+            <div class="bg-[#875C1A] hover:bg-amber-600 text-white p-6 rounded-[4px] shadow cursor-pointer">
                 <p class="text-lg font-semibold">By Shelf</p>
                 <p class="text-xs mt-1">Recommendations based on your bookshelves.</p>
             </div>

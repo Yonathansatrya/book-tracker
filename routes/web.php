@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\BookNoteController;
 use App\Http\Controllers\UserBookController;
 use App\Http\Controllers\Auth\LoginController;
@@ -9,12 +11,16 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Management\BookController;
 use App\Http\Controllers\Management\GenreController;
 use App\Http\Controllers\Management\AuthorController;
-use App\Http\Controllers\PagesController;
 
 // Home Page
 Route::get('/', fn() => view('home'))->name('home');
 
-// Auth Routes
+// Search functrionality
+Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+// =====================
+// Login Routes
+// =====================
 Route::get('/login', [LoginController::class, 'formLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/register', [RegisterController::class, 'formRegister'])->name('register');

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Book')
-
+@section('title', 'Search Results')
 @section('content')
     <section class="flex">
         {{-- Sidebar --}}

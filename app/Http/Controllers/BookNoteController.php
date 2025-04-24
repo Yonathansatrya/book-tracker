@@ -56,8 +56,8 @@ class BookNoteController extends Controller
         ]);
 
         return redirect()
-        ->route('book-trackers.show', $bookUser->id)
-        ->with('success', 'Catatan berhasil disimpan!');
+            ->route('book-trackers.show', $bookNote->book_user_id)
+            ->with('success', 'Catatan berhasil diperbarui!');
     }
 
     public function destroy(BookNote $bookNote)
@@ -68,7 +68,7 @@ class BookNoteController extends Controller
         $bookNote->delete();
 
         return redirect()
-        ->route('book-trackers.show', $bookUser->id)
-        ->with('success', 'Catatan berhasil disimpan!');
+            ->route('book-trackers.show', $bookNote->book_user_id)
+            ->with('success', 'Catatan berhasil dihapus!');
     }
 }

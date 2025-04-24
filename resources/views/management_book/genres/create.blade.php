@@ -3,7 +3,7 @@
 @section('title', 'Tambah Genre')
 @section('content')
     <div class="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Tambah Genre Baru</h2>
+        <h2 class="text-2xl font-semibold text-amber-700 mb-6">Tambah Genre Baru</h2>
 
         <form action="{{ route('genres.store') }}" method="POST">
             @csrf

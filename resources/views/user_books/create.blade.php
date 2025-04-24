@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Tambah Buku ke Daftar Saya</h1>
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Tambah Buku ke Libary Saya</h1>
 
         <form action="{{ route('user-books.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf

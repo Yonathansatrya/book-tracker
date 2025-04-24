@@ -10,8 +10,8 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->unique()->sentence(3),
-            'author' => $this->faker->name,
             'published_year' => $this->faker->year,
+            'total_page' => $this->faker->numberBetween(50, 1000),
             'average_rating' => $this->faker->randomFloat(1, 0, 5),
             'ratings_count' => $this->faker->numberBetween(0, 1000),
             'description' => $this->faker->paragraph,
