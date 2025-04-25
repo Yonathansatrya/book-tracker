@@ -15,7 +15,7 @@
             @forelse ($userBooks as $userBook)
                 <div class="bg-white rounded-2xl shadow-md p-4">
                     <h2 class="text-xl font-semibold">{{ $userBook->book->title }}</h2>
-                    <p class="text-sm text-gray-600">{{ $userBook->book->published_year }}</p>
+                    <p class="text-sm text-gray-600">{{ $userBook->book->published_at }}</p>
                     <p class="text-sm text-gray-800">Status: <strong>{{ ucfirst($userBook->status) }}</strong></p>
                     <div class="mt-2 flex justify-between">
                         <a href="{{ route('user-books.edit', $userBook->id) }}"

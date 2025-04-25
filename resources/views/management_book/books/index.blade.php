@@ -18,6 +18,7 @@
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Judul Buku</th>
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Tahun Terbit</th>
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Jumlah Halaman</th>
+                    <th class="px-4 py-2 text-sm font-medium text-gray-700">Jumlah Ratings</th>
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Genre</th>
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Author</th>
                     <th class="px-4 py-2 text-sm font-medium text-gray-700">Aksi</th>
@@ -27,8 +28,9 @@
                 @foreach ($books as $book)
                 <tr class="border-t border-gray-200">
                     <td class="px-4 py-2 text-sm text-gray-800">{{ $book->title }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-800">{{ $book->published_year }}</td>
+                    <td class="py-4 text-sm text-gray-800">{{ $book->published_at }}</td>
                     <td class="px-4 py-2 text-sm text-gray-800">{{ $book->total_page }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-800">{{ $book->average_rating }}</td>
                     <td class="px-4 py-2 text-sm text-gray-800">
                         @foreach($book->genres as $genre)
                             <span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">{{ $genre->name }}</span>

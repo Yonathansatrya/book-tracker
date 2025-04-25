@@ -8,7 +8,7 @@
             <p class="text-black">Not Sure What To Read Next?</p>
             <p class="text-black mb-[32px]">Our solution will cost you 5 minutes to find your next best.</p>
             <div>
-                <a href="{{ route('home') }}" class="inline-flex mt-2 border border-[#875C1A] overflow-hidden group">
+                <a href="{{ route('search') }}" class="inline-flex mt-2 border border-[#875C1A] overflow-hidden group">
                     <span class="bg-white text-black font-semibold px-5 py-2">
                         Explore Now
                     </span>

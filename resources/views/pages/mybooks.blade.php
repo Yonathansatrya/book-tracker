@@ -63,7 +63,7 @@
                         <div class="bg-white shadow-md rounded-lg p-4">
                             <h2 class="text-xl font-semibold text-amber-700">{{ $book->title }}</h2>
                             <p class="text-sm text-gray-600">by {{ $book->author }}</p>
-                            <p class="text-sm text-gray-500">Published: {{ $book->published_year }}</p>
+                            <p class="text-sm text-gray-500">Published: {{ $book->published_at }}</p>
                             <div class="mt-2">
                                 <span class="text-sm text-gray-600">Genre:</span>
                                 @foreach ($book->genres as $genre)

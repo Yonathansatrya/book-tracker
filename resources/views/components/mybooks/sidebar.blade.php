@@ -50,7 +50,7 @@
                             class="block px-2 py-1 hover:underline">Kindle Notes & Highlights</a></li>
                     <li><a href="{{ route('my-books', ['status' => 'challenge']) }}"
                             class="block px-2 py-1 hover:underline">Reading Challenge</a></li>
-                    <li><a href="{{ route('my-books', ['status' => 'published_year']) }}"
+                    <li><a href="{{ route('my-books', ['status' => 'published_at']) }}"
                             class="block px-2 py-1 hover:underline">Year in Books</a></li>
                     <li><a href="{{ route('my-books', ['status' => 'stats']) }}"
                             class="block px-2 py-1 hover:underline">Reading Stats</a></li>

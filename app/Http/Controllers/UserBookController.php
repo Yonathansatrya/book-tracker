@@ -30,7 +30,7 @@ class UserBookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'published_year' => 'required|integer',
+            'published_at' => 'required|date',
             'total_page' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -48,7 +48,7 @@ class UserBookController extends Controller
 
         $book = Book::create([
             'title' => $request->title,
-            'published_year' => $request->published_year,
+            'published_at' => $request->published_at,
             'total_page' => $request->total_page,
             'description' => $request->description,
             'average_rating' => $request->average_rating,
@@ -88,7 +88,7 @@ class UserBookController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255|unique:books,title,' . $book->id,
-            'published_year' => 'required|integer',
+            'published_at' => 'required|date',
             'total_page' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -108,7 +108,7 @@ class UserBookController extends Controller
         $book->update([
             'title' => $request->title,
             'author' => $request->author,
-            'published_year' => $request->published_year,
+            'published_at' => $request->published_at,
             'total_page' => $request->total_page,
             'description' => $request->description,
             'average_rating' => $request->average_rating,
@@ -119,7 +119,7 @@ class UserBookController extends Controller
         if ($request->has('genre_ids')) {
             $book->genres()->sync($request->genre_ids);
         }
-        
+
         if ($request->has('author_ids')) {
             $book->authors()->sync($request->author_ids);
         }

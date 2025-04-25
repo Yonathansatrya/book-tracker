@@ -18,9 +18,9 @@ class BookController extends Controller
         return view('management_book.books.index', compact('books'));
     }
 
-    public function show()
+    public function show($id)
     {
-        $books = Book::all();
+        $books = Book::with(['genres', 'authors'])->get();
         return view('management_book.books.show', compact('books'));
     }
 
@@ -35,7 +35,7 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'published_year' => 'required|integer',
+            'published_at' => 'required|date',
             'total_page' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
@@ -53,7 +53,7 @@ class BookController extends Controller
 
         $book = Book::create([
             'title' => $request->title,
-            'published_year' => $request->published_year,
+            'published_at' => $request->published_at,
             'total_page' => $request->total_page,
             'description' => $request->description,
             'average_rating' => $request->average_rating,
@@ -84,7 +84,7 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'total_page' => 'required|integer|min:0',
-            'published_year' => 'required|integer',
+            'published_at' => 'required|date',
             'description' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
             'genre_ids' => 'required|array',
@@ -105,7 +105,7 @@ class BookController extends Controller
 
         $book->update([
             'title' => $request->title,
-            'published_year' => $request->published_year,
+            'published_at' => $request->published_at,
             'total_page' => $request->total_page,
             'description' => $request->description,
             'average_rating' => $request->average_rating,

@@ -95,8 +95,7 @@ Route::prefix('authors')->name('authors.')->group(function () {
 
 // Books Management
 Route::prefix('books')->name('books.')->group(function () {
-    Route::get('/', [BookController::class, 'show'])->name('show');
-    Route::get('/index', [BookController::class, 'index'])->name('index');
+    Route::get('/', [BookController::class, 'index'])->name('index');
     Route::get('/create', [BookController::class, 'create'])->name('create');
     Route::post('/', [BookController::class, 'store'])->name('store');
     Route::get('/{book}/edit', [BookController::class, 'edit'])->name('edit');

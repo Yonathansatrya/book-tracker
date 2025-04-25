@@ -23,7 +23,7 @@
                         <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded mb-2">{{ $genre->name }}</span>
                     @endforeach
                 </p>
-                <p class="text-sm text-gray-600 mb-2">Published: {{ $tracker->book->published_year }}</p>
+                <p class="text-sm text-gray-600 mb-2">Published: {{ $tracker->book->published_at }}</p>
                 <div class="mb-4">
                     <p class="text-sm text-gray-700">
                         Progress: <span class="font-semibold">{{ $tracker->last_read_page }}</span> /
