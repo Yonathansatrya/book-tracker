@@ -10,7 +10,7 @@
 </head>
 
 <body class="min-h-screen flex">
-    <div class="w-full md:w-1/2 flex flex-col justify-center px-35 py-16 bg-white">
+    <div class="w-full md:w-1/2 flex flex-col justify-center px-10 md:px-35 sm:px-20 py-16 bg-white">
         <h2 class="text-3xl text-center font-bold mb-6">Get Started Now</h2>
 
         <form action="{{ route('register.post') }}" method="POST" class="space-y-4">

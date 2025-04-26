@@ -45,8 +45,14 @@ class SearchController extends Controller
         }
 
         if ($request->filled('authors')) {
-            $booksQuery->whereHas('authors', function ($q) use ($request) {
-                $q->whereIn('name', (array) $request->input('authors'));
+            $authorName = $request->input('authors');
+
+            $booksQuery->whereHas('authors', function ($query) use ($authorName) {
+                $query->where(function ($q) use ($authorName) {
+                    foreach ($authorName as $name) {
+                        $q->orWhere('name', 'like', '%' . $name . '%');
+                    }
+                });
             });
         }
 

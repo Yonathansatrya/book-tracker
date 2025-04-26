@@ -18,10 +18,10 @@ class BookController extends Controller
         return view('management_book.books.index', compact('books'));
     }
 
-    public function show($id)
+    public function show(Book $book)
     {
-        $books = Book::with(['genres', 'authors'])->get();
-        return view('management_book.books.show', compact('books'));
+        $book->load(['genres', 'authors']);
+        return view('management_book.books.show', compact('book'));
     }
 
     public function create()

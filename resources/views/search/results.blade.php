@@ -4,7 +4,9 @@
 @section('content')
     <section class="flex">
         {{-- Sidebar --}}
-        <aside class="w-64 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+        {{-- <aside class="w-64 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700"> --}}
+        <aside id="sidebar"
+            class="fixed inset-y-0 left-0 w-64 transform -translate-x-full md:translate-x-0 md:relative md:inset-0 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-transform duration-200 ease-in-out z-50">
             <form action="{{ route('search') }}" method="GET">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Filter Option</h2>
@@ -100,13 +102,30 @@
                                 <path fill="#fff"
                                     d="M1468 1139q-52 43-89 96q-83-42-173-62t-184-21q-108 0-206 27t-184 76t-154 119t-119 155t-76 185t-27 206H128q0-146 43-281t124-247t193-196t254-129q-54-36-96-83t-72-102t-46-116t-16-126q0-106 40-199t110-162t163-110t199-41t199 40t162 110t110 163t41 199q0 65-16 126t-45 117t-73 102t-97 83q43 14 83 31t80 40M640 640q0 80 30 149t82 122t122 83t150 30q79 0 149-30t122-82t83-122t30-150q0-79-30-149t-82-122t-123-83t-149-30q-80 0-149 30t-122 82t-83 123t-30 149m1090 511q66 0 125 25t102 69t69 102t26 125q0 66-25 124t-69 102t-103 69t-125 26q-97 0-177-54l-292 292q-19 19-45 19t-45-19t-19-45t19-45l292-292q-54-80-54-177q0-66 25-124t69-102t102-69t125-26m0 514q40 0 75-15t61-41t42-62t16-75q0-40-15-75t-42-61t-61-42t-76-15q-40 0-75 15t-61 42t-42 61t-15 75q0 40 15 75t41 61t62 42t75 15" />
                             </svg>
-                        </span>Author
+                        </span>
+                        Author
                     </h3>
                     <div id="authors-container" class="space-y-3">
-                        <input type="text" placeholder="Author's name"
+                        <input type="text" name="authors[]" placeholder="Author's name"
                             class="w-full px-2 py-1 text-sm rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#875C1A] mb-2">
                     </div>
+                    <button type="button" onclick="addAuthorInput()" class="text-sm text-[#875C1A] mb-2 hover:underline">
+                        + Add another author
+                    </button>
                 </div>
+
+                <script>
+                    function addAuthorInput() {
+                        const container = document.getElementById('authors-container');
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.name = 'authors[]';
+                        input.placeholder = "Author's name";
+                        input.className =
+                            "w-full px-2 py-1 text-sm rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#875C1A] mb-2";
+                        container.appendChild(input);
+                    }
+                </script>
 
                 <div class="mb-6">
                     <h3 class="flex bg-[#875C1A] text-white px-3 py-2 rounded text-sm font-semibold mb-2 gap-2">
@@ -205,6 +224,25 @@
                 </div>
             </form>
         </aside>
+
+        <button id="sidebarToggle" class="fixed top-2 left-2 z-50 md:hidden text-black p-2 rounded focus:outline-none">
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                    <path fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10"
+                        stroke-width="1.5"
+                        d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z" />
+                </svg>
+            </span>
+        </button>
+
+        <script>
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('sidebarToggle');
+
+            toggleButton.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+        </script>
 
         {{-- Content --}}
         <div class="flex-1 p-4">

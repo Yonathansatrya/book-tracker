@@ -1,7 +1,7 @@
 <h2 class="font-bold px-4 text-2xl text-black mb-6">Book</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+<div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
     @foreach ($books as $book)
-        <a href="#" class="max-w-[180px] bg-white rounded-xl shadow p-3 relative">
+        <a href="{{ route('books.show', $book->id) }}" class="max-w-[180px] bg-white rounded-xl shadow p-3 relative">
             <div class="absolute top-2 right-2 bg-white rounded-full p-1 shadow">
                 <svg class="w-5 h-5 text-amber-700 hover:text-amber-600" fill="none" stroke="currentColor"
                     stroke-width="1.5" viewBox="0 0 24 24">

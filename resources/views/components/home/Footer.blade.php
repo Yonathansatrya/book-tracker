@@ -1,5 +1,5 @@
 <footer class="bg-[#FFF2DE] text-gray-800 pt-12 relative">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         <div>
             <img src="{{ asset('logo.svg') }}" alt="Goodreads" class="h-6 mb-4">
         </div>

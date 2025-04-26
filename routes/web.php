@@ -17,6 +17,7 @@ Route::get('/', fn() => view('home'))->name('home');
 
 // Search functrionality
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
 // =====================
 // Login Routes
@@ -106,4 +107,4 @@ Route::prefix('books')->name('books.')->group(function () {
 // });
 
 // Fallback - 404
-Route::fallback(fn() => view('errors.404'))->name('404');
+// Route::fallback(fn() => view('errors.404'))->name('404');
