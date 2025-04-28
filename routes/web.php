@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mybooks', [PagesController::class, 'mybooks'])->name('my-books');
 
     // User Books Routes
-    Route::prefix('user-books')->name('user-books.')->group(function () {
+    Route::prefix('user-book')->name('user-books.')->group(function () {
         Route::get('/', [UserBookController::class, 'index'])->name('index');
         Route::get('/create', [UserBookController::class, 'create'])->name('create');
         Route::post('/', [UserBookController::class, 'store'])->name('store');
@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Book Tracker Routes
-    Route::prefix('book-trackers')->name('book-trackers.')->group(function () {
+    Route::prefix('book-tracker')->name('book-trackers.')->group(function () {
         Route::get('/', [BookTrackerController::class, 'index'])->name('index');
         Route::get('/create', [BookTrackerController::class, 'create'])->name('create');
         Route::post('/', [BookTrackerController::class, 'store'])->name('store');
@@ -56,10 +56,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{bookTracker}', [BookTrackerController::class, 'update'])->name('update');
         Route::delete('/{bookTracker}', [BookTrackerController::class, 'destroy'])->name('destroy');
         Route::put('/{bookTracker}/progress', [BookTrackerController::class, 'updateProgress'])->name('updateProgress');
+        Route::post('/{tracker}/rating', [BookTrackerController::class, 'rating'])->name('rating')  ;
     });
 
     // Book Notes Routes
-    Route::prefix('book-notes')->name('book-notes.')->group(function () {
+    Route::prefix('book-note')->name('book-notes.')->group(function () {
         Route::post('/', [BookNoteController::class, 'store'])->name('store');
         Route::put('/{bookNote}', [BookNoteController::class, 'update'])->name('update');
         Route::delete('/{bookNote}', [BookNoteController::class, 'destroy'])->name('destroy');
@@ -73,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
 // Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Genres Management
-Route::prefix('genres')->name('genres.')->group(function () {
+Route::prefix('genre')->name('genres.')->group(function () {
     Route::get('/', [GenreController::class, 'index'])->name('index');
     Route::get('/create', [GenreController::class, 'create'])->name('create');
     Route::post('/', [GenreController::class, 'store'])->name('store');
@@ -84,7 +85,7 @@ Route::prefix('genres')->name('genres.')->group(function () {
 });
 
 // Authors Management
-Route::prefix('authors')->name('authors.')->group(function () {
+Route::prefix('author')->name('authors.')->group(function () {
     Route::get('/', [AuthorController::class, 'index'])->name('index');
     Route::get('/create', [AuthorController::class, 'create'])->name('create');
     Route::post('/', [AuthorController::class, 'store'])->name('store');
@@ -95,7 +96,17 @@ Route::prefix('authors')->name('authors.')->group(function () {
 });
 
 // Books Management
-Route::prefix('books')->name('books.')->group(function () {
+// Route::prefix('books')->name('books.')->group(function () {
+//     Route::get('/', [BookController::class, 'index'])->name('index');
+//     Route::get('/create', [BookController::class, 'create'])->name('create');
+
+//     Route::post('/', [BookController::class, 'store'])->name('store');
+//     Route::get('/{book}/edit', [BookController::class, 'edit'])->name('edit');
+//     Route::put('/{book}', [BookController::class, 'update'])->name('update');
+//     Route::delete('/{book}', [BookController::class, 'destroy'])->name('destroy');
+// });
+
+Route::prefix('book')->name('books.')->group(function () {
     Route::get('/', [BookController::class, 'index'])->name('index');
     Route::get('/create', [BookController::class, 'create'])->name('create');
     Route::post('/', [BookController::class, 'store'])->name('store');
@@ -107,4 +118,4 @@ Route::prefix('books')->name('books.')->group(function () {
 // });
 
 // Fallback - 404
-// Route::fallback(fn() => view('errors.404'))->name('404');
+Route::fallback(fn() => view('errors.404'))->name('404');

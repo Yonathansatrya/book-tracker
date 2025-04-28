@@ -24,12 +24,29 @@ class Book extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'book_users')
-                    ->withPivot('status', 'last_read_page', 'rating', 'started_at', 'finished_at')
-                    ->withTimestamps();
+            ->withPivot('status', 'last_read_page', 'rating', 'started_at', 'finished_at')
+            ->withTimestamps();
     }
 
     public function owners()
     {
         return $this->belongsToMany(User::class, 'user_books');
+    }
+
+    public function calculateAverageRating()
+    {
+        return $this->bookUsers()->whereNotNull('rating')->avg('rating');
+    }
+
+    public function calculateRatingsCount()
+    {
+        return $this->bookUsers()->whereNotNull('rating')->count();
+    }
+
+    public function updateRatingStats()
+    {
+        $this->average_rating = $this->calculateAverageRating();
+        $this->ratings_count = $this->calculateRatingsCount();
+        $this->save();
     }
 }

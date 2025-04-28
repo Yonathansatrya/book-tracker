@@ -4,9 +4,8 @@
 @section('content')
     <section class="flex">
         {{-- Sidebar --}}
-        {{-- <aside class="w-64 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700"> --}}
         <aside id="sidebar"
-            class="fixed inset-y-0 left-0 w-64 transform -translate-x-full md:translate-x-0 md:relative md:inset-0 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-transform duration-200 ease-in-out z-50">
+            class="fixed inset-y-0 left-0 w-64 transform -translate-x-full md:translate-x-0 md:relative md:inset-0 p-4 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-transform duration-200 ease-in-out z-50 overflow-y-auto max-h-screen">
             <form action="{{ route('search') }}" method="GET">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Filter Option</h2>
@@ -115,16 +114,12 @@
                 </div>
 
                 <script>
-                    function addAuthorInput() {
-                        const container = document.getElementById('authors-container');
-                        const input = document.createElement('input');
-                        input.type = 'text';
-                        input.name = 'authors[]';
-                        input.placeholder = "Author's name";
-                        input.className =
-                            "w-full px-2 py-1 text-sm rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#875C1A] mb-2";
-                        container.appendChild(input);
-                    }
+                    const sidebarToggle = document.getElementById('sidebarToggle');
+                    const sidebar = document.getElementById('sidebar');
+
+                    sidebarToggle.addEventListener('click', () => {
+                        sidebar.classList.toggle('-translate-x-full');
+                    });
                 </script>
 
                 <div class="mb-6">
@@ -225,13 +220,12 @@
             </form>
         </aside>
 
-        <button id="sidebarToggle" class="fixed top-2 left-2 z-50 md:hidden text-black p-2 rounded focus:outline-none">
-            <span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                    <path fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10"
-                        stroke-width="1.5"
-                        d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z" />
-                </svg>
+        <button id="sidebarToggle"
+            class="fixed md:hidden bg-gray-100 text-white p-2 rounded-[4px] shadow-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                <path fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="1.5"
+                    d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z" />
+            </svg>
             </span>
         </button>
 

@@ -19,7 +19,7 @@
 
             <div class="mb-4">
                 <label for="published_at" class="block text-sm font-medium text-gray-700">Tahun Terbit</label>
-                <input type="number" name="published_at" id="published_at" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('published_at') border-red-500 @enderror" value="{{ old('published_at') }}">
+                <input type="date" name="published_at" id="published_at" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('published_at') border-red-500 @enderror" value="{{ old('published_at') }}">
                 @error('published_at')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
@@ -78,7 +78,7 @@
             </div>
 
             <div class="mb-4">
-                <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button type="submit" class="px-6 py-2 bg-amber-600 text-white rounded-md shadow-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     Tambah Buku
                 </button>
                 <a href="{{ route('user-books.index') }}"

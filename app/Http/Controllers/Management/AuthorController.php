@@ -27,7 +27,7 @@ class AuthorController extends Controller
         ]);
 
         Author::create($request->all());
-        return redirect()->route('authors.index')->with('success', 'Author berhasil ditambahkan!');
+        return redirect()->route('authors.index')->with('success', 'Penulis berhasil ditambahkan!');
     }
 
     public function edit(Author $author)
@@ -43,12 +43,12 @@ class AuthorController extends Controller
         ]);
 
         $author->update($request->all());
-        return redirect()->route('authors.index')->with('success', 'Author berhasil diperbarui!');
+        return redirect()->route('authors.index')->with('success', 'Penulis berhasil diperbarui!');
     }
 
     public function destroy(Author $author)
     {
         $author->delete();
-        return redirect()->route('authors.index')->with('success', 'Author berhasil dihapus!');
+        return redirect()->route('authors.index')->with('success', 'Penulis berhasil dihapus!');
     }
 }

@@ -54,6 +54,28 @@ class BookTrackerController extends Controller
         return redirect()->route('book-trackers.index')->with('success', 'Progres buku berhasil ditambahkan.');
     }
 
+    public function rating(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $tracker = BookUser::findOrFail($id);
+
+        $tracker->rating = $request->rating;
+        $tracker->save();
+
+        $book = $tracker->book;
+        $totalRatings = $book->users()->whereNotNull('rating')->count();
+        $averageRating = $book->users()->whereNotNull('rating')->avg('rating');
+        $book->average_rating = round($averageRating, 2);
+        $book->ratings_count = $totalRatings;
+
+        $book->save();
+
+        return redirect()->route('book-trackers.show', $tracker->id)->with('success', 'Rating berhasil diperbarui!');
+    }
+
     public function edit($id)
     {
         $books = Book::all();
@@ -92,7 +114,22 @@ class BookTrackerController extends Controller
         $tracker->last_read_page = $request->last_read_page;
         $tracker->save();
 
+        $this->updateStatus($tracker);
+
         return redirect()->route('book-trackers.show', $tracker->id)->with('success', 'Progress berhasil diupdate!');
+    }
+
+    public function updateStatus(BookUser $bookUser)
+    {
+        if ($bookUser->last_read_page == 0) {
+            $bookUser->status = 'want_to_read';
+        } elseif ($bookUser->last_read_page == $bookUser->book->total_page) {
+            $bookUser->status = 'finished';
+        } else {
+            $bookUser->status = 'reading';
+        }
+
+        $bookUser->save();
     }
 
     public function destroy(BookUser $bookUser)

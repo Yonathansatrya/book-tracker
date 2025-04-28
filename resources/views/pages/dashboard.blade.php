@@ -5,10 +5,10 @@
     <section class="px-4 sm:px-10 lg:px-[120px] mb-[48px] py-10">
         <h3 class="text-left font-semibold text-[16px] text-black mb-3">Continue</h3>
 
-        <div class="bg-[#FFF2DE] rounded-[4px] justify-center grid grid-cols-2 shadow-sm p-6 px-20">
-            <div class="flex flex-col items-center justify-center gap-4">
+        <div class="bg-[#FFF2DE] rounded-[4px] justify-center grid grid-cols-1 sm:grid-cols-2 shadow-sm p-6 px-10">
+            <div class="flex flex-col items-center justify-center gap-4 px-4">
                 <h2 class="text-[16px] font-semibold text-center lg:text-left mb-4 lg:mb-0">
-                    Currently Reading Books (5)
+                    Currently Reading Books ({{ $totalBook }})
                 </h2>
 
                 <div class="flex gap-4">
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 <div class="text-center">
                     <img src="http://127.0.0.1:8000/dashboard-assets/book_1.svg" class="w-full h-40 object-cover rounded mb-2"
                         alt="">
@@ -74,13 +74,13 @@
                 <div class="relative w-32 h-32">
                     <div class="absolute inset-0 rotate-[calc(var(--rotate,0)*1deg)]">
                         <div class="w-32 h-32 border-8 border-b-transparent border-t-transparent border-l-transparent border-r-amber-700 rounded-full transform rotate-[-90deg] origin-center"
-                            style="--rotate: 120;"></div>
+                            style="--rotate: {{ ($Completedbook / $totalBook) * 360 }};"></div>
                     </div>
 
                     <div
                         class="absolute w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-sm text-gray-700">
-                        <p class="text-sm text-gray-800">2 <span class="text-xs">books completed</span></p>
-                        <p class="text-sm text-gray-800">4 <span class="text-xs">behind schedule</span></p>
+                        <p class="text-sm text-gray-800">{{ $Completedbook }} <span class="text-xs">books completed</span></p>
+                        <p class="text-sm text-gray-800">{{ $ScheduleBooks }} <span class="text-xs">behind schedule</span></p>
                     </div>
                 </div>
 
@@ -98,16 +98,16 @@
             Type a prompt about the books you're interested in, and our smart tool will guide you to a matching review.
             Start exploring now!
         </p>
-        <div class="grid grid-cols-1 sm:grid-cols-3 rounded-[4px] bg-[#FFF2DE] gap-4 py-20 px-30">
-            <div class="bg-[#875C1A] hover:bg-amber-600 text-white p-6 rounded-[4px] shadow cursor-pointer">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 rounded-[4px] bg-[#FFF2DE] gap-4 py-10 px-15">
+            <div class="bg-[#875C1A] hover:bg-amber-600 text-white px-5 py-10 rounded-[4px] shadow cursor-pointer">
                 <p class="text-lg font-semibold">By Shelf</p>
                 <p class="text-xs mt-1">Recommendations based on your bookshelves.</p>
             </div>
-            <div class="bg-[#423726] hover:bg-amber-700 text-white p-6 rounded-[4px] shadow cursor-pointer">
+            <div class="bg-[#423726] hover:bg-amber-700 text-white px-5 py-10 rounded-[4px] shadow cursor-pointer">
                 <p class="text-lg font-semibold">By books</p>
                 <p class="text-xs mt-1">Recommendations based on some books you choose.</p>
             </div>
-            <div class="bg-[#875C1A] hover:bg-yellow-900 text-white p-6 rounded-[4px] shadow cursor-pointer">
+            <div class="bg-[#875C1A] hover:bg-yellow-900 text-white px-5 py-10 rounded-[4px] shadow cursor-pointer">
                 <p class="text-lg font-semibold">By Genre</p>
                 <p class="text-xs mt-1">Recommendations based on your favorite genres.</p>
             </div>

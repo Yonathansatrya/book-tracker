@@ -5,7 +5,7 @@
     @include('components.mybooks.sidebar')
     {{-- Tampilan Book --}}
     <div class="p-4 sm:ml-64">
-        <section>
+        <section class="items-center bg-white rounded-[4px] shadow-xl p-5 text-center mx-auto sm:mx-1 mb-[40px]">
             <h2 class="text-center font-semibold text-amber-700 py-5 px-4 text-3xl">Buku Bacaan Kamu</h2>
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8 mb-4">
                 @foreach ($trackers as $tracker)
@@ -33,9 +33,10 @@
                         <p class="text-sm text-gray-500 mb-2">Progress: <span
                                 class="font-semibold">{{ $tracker->last_read_page }}</span> /
                             {{ $tracker->book->total_page }} halaman</p>
-                        <div class="flex justify-center items-center text-yellow-500 mb-1">
+                        <div class="flex justify-center space-x-0.5 text-amber-400 text-sm mb-1">
                             @for ($i = 1; $i <= 5; $i++)
-                                <svg class="w-5 h-5 fill-current {{ $i > 4 ? 'text-gray-300' : '' }}" viewBox="0 0 20 20">
+                                <svg class="w-5 h-5 fill-current {{ $i > $tracker->book->average_rating ? 'text-gray-300' : '' }}"
+                                    viewBox="0 0 20 20">
                                     <path
                                         d="M10 15l-5.878 3.09L5.5 12 1 7.91l6.06-.91L10 2l2.94 5 6.06.91L14.5 12l1.378 6.09z" />
                                 </svg>
@@ -54,7 +55,7 @@
                     Buku Bacaan</a>
             </div>
         </section>
-        <section>
+        <section class="items-center bg-white rounded-[4px] shadow-xl p-5 text-center mx-auto sm:mx-1"">
             <div class="items-center bg-white rounded-[4px] shadow-xl p-5 text-center mx-auto sm:mx-1">
                 @forelse ($books as $userBook)
                     @php $book = $userBook->book; @endphp
@@ -72,9 +73,9 @@
                                 @endforeach
                             </div>
                             <div class="mt-4 flex gap-2">
-                                <a href="{{ route('user-books.edit', $book->id) }}"
+                                <a href="{{ route('user-books.edit', $userBook->id) }}"
                                     class="text-amber-700 hover:underline">Edit</a>
-                                <form action="{{ route('user-books.destroy', $book->id) }}" method="POST"
+                                <form action="{{ route('user-books.destroy', $userBook->id) }}" method="POST"
                                     onsubmit="return confirm('Yakin ingin hapus buku ini?')">
                                     @csrf
                                     @method('DELETE')
@@ -84,12 +85,15 @@
                         </div>
                     </div>
                     <div class="flex justify-center mb-4">
-                        <a href="{{ route('book-trackers.index') }}"
+                        <a href="{{ route('user-books.index') }}"
                             class="bg-amber-700 text-white px-4 py-2 rounded-md hover:bg-amber-800 transition duration-200">Lihat
                             Semua</a>
                     </div>
                 @empty
-                    <p class="text-gray-600">Belum ada buku ditambahkan.</p>
+                    <p class="text-gray-600 mb-10">Belum ada buku ditambahkan.</p>
+                    <a href="{{ route('user-books.create') }}"
+                        class="bg-amber-700 text-white px-4 py-2 rounded-md hover:bg-amber-800 transition duration-200">Tambah
+                        Buku Kamu</a>
                 @endforelse
             </div>
         </section>

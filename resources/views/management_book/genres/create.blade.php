@@ -11,7 +11,7 @@
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Nama Genre</label>
                 <input type="text" name="name" id="name"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('name') border-red-500 @enderror"
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-[4px] shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('name') border-red-500 @enderror"
                     value="{{ old('name') }}">
                 @error('name')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -21,7 +21,7 @@
             <div class="mb-4">
                 <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                 <textarea name="description" id="description" rows="4"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-[4px] shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
                 @error('description')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
@@ -29,9 +29,10 @@
 
             <div class="mb-4">
                 <button type="submit"
-                    class="px-6 py-2 bg-amber-700 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    class="px-6 py-2 bg-amber-700 text-white rounded-[4px] shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     Tambah Genre
                 </button>
+                <a href="{{ route('genres.index') }}" class="px-6 py-2 bg-blue-300 text-white rounded-[4px] shadow-md hover:bg-blue-500">Kembali</a>
             </div>
         </form>
     </div>

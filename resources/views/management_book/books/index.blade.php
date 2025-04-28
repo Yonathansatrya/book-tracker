@@ -5,6 +5,17 @@
     <div class="max-w-6xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Daftar Buku</h2>
 
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        @endif
+
         <div class="mb-4">
             <a href="{{ route('books.create') }}"
                 class="px-4 py-2 bg-amber-700 text-white rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500">

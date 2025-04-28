@@ -1,4 +1,4 @@
-<h2 class="font-bold px-4 text-2xl text-black mb-6">Book</h2>
+<h2 class="font-bold px-4 py-5 text-2xl text-black">Book</h2>
 <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
     @foreach ($books as $book)
         <a href="{{ route('books.show', $book->id) }}" class="max-w-[180px] bg-white rounded-xl shadow p-3 relative">
@@ -29,7 +29,7 @@
                     @endfor
                 </div>
                 <p class="text-xs text-gray-600 mb-1">{{ $book->average_rating }}</p>
-                <p class="text-xs text-gray-800 font-semibold"><span class="font-bold">5431</span> Read the
+                <p class="text-xs text-gray-800 font-semibold"><span class="font-bold">{{ $book->ratings_count }}</span> Read the
                     book</p>
             </div>
         </a>

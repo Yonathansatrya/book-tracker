@@ -4,7 +4,6 @@
 @section('content')
     <div class="max-w-6xl mx-auto p-6 bg-white rounded-lg shadow">
         <div class="flex flex-col md:flex-row gap-6">
-
             <div class="md:w-1/3">
                 <img src="{{ asset('book_cover.svg') }}" alt="Book cover" class="w-full h-64 object-cover rounded-lg">
             </div>
@@ -47,6 +46,59 @@
                         Tambah Catatan
                     </button>
                 </form>
+
+                {{-- rating after compleceted book --}}
+                @if ($tracker->last_read_page == $tracker->book->total_page)
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold">Berikan Rating Buku {{ $tracker->book->title }}</h3>
+                    <form action="{{ route('book-trackers.rating', $tracker->id) }}" method="POST">
+                        @csrf
+                        <div class="flex items-center gap-2">
+                            <label for="rating" class="text-sm text-gray-700">Rating:</label>
+                            <div class="flex items-center" id="star-rating">
+                                <span class="star text-2xl cursor-pointer" data-value="1">☆</span>
+                                <span class="star text-2xl cursor-pointer" data-value="2">☆</span>
+                                <span class="star text-2xl cursor-pointer" data-value="3">☆</span>
+                                <span class="star text-2xl cursor-pointer" data-value="4">☆</span>
+                                <span class="star text-2xl cursor-pointer" data-value="5">☆</span>
+                            </div>
+                            <input type="hidden" name="rating" id="rating" value="{{ $tracker->rating ?? '' }}" />
+                        </div>
+
+                        <button type="submit" class="bg-amber-700 text-white px-4 py-1 rounded-[4px] hover:bg-amber-800 transition mt-4">
+                            Kirim Rating
+                        </button>
+                    </form>
+                </div>
+
+                <script>
+                    let currentRating = document.getElementById('rating').value;
+                    if (currentRating) {
+                        updateStarRating(currentRating);
+                    }
+
+                    document.querySelectorAll('.star').forEach(star => {
+                        star.addEventListener('click', function() {
+                            let ratingValue = this.getAttribute('data-value');
+                            document.getElementById('rating').value = ratingValue;
+                            updateStarRating(ratingValue);
+                        });
+                    });
+
+                    function updateStarRating(ratingValue) {
+                        document.querySelectorAll('.star').forEach(star => {
+                            if (star.getAttribute('data-value') <= ratingValue) {
+                                star.classList.add('text-yellow-500');
+                                star.classList.remove('text-gray-400');
+                            } else {
+                                star.classList.add('text-gray-400');
+                                star.classList.remove('text-yellow-500');
+                            }
+                        });
+                    }
+                </script>
+            @endif
+
             </div>
         </div>
 
