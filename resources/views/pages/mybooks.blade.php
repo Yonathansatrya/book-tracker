@@ -10,10 +10,12 @@
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8 mb-4">
                 @foreach ($trackers as $tracker)
                     <a href="{{ route('book-trackers.show', $tracker->id) }}"
-                        class="block items-center bg-white rounded-[16px] shadow p-5 text-center mx-auto hover:shadow-lg transition-shadow duration-200">
+                        class="block items-center bg-white rounded-[4px] shadow p-5 text-center mx-auto hover:shadow-lg transition-shadow duration-200">
 
-                        <img src="{{ asset('book_cover.svg') }}" alt="Book cover"
-                            class="w-full h-46 object-cover rounded-[16px] mb-1 px-2" />
+                        <img src="{{ $tracker->book && $tracker->book->cover_image
+                            ? asset('storage/' . $tracker->book->cover_image)
+                            : asset('no-image.png') }}"
+                            alt="Book cover" class="w-full h-46 object-cover rounded-[16px] mb-1 px-2" />
 
                         <h3 class="text-xl font-bold text-gray-900">{{ $tracker->book->title }}</h3>
                         <p class="text-md text-gray-700 mb-2">By: @foreach ($tracker->book->authors as $author)

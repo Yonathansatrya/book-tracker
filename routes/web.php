@@ -17,7 +17,7 @@ Route::get('/', fn() => view('home'))->name('home');
 
 // Search functrionality
 Route::get('/search', [SearchController::class, 'search'])->name('search');
-Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+Route::get('/book/{book}', [BookController::class, 'show'])->name('books.show');
 
 // =====================
 // Login Routes
@@ -33,7 +33,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // =====================
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [PagesController::class, 'home'])->name('dashboard.user');
-    Route::get('/mybooks', [PagesController::class, 'mybooks'])->name('my-books');
+    Route::get('/mybook', [PagesController::class, 'mybooks'])->name('my-books');
 
     // User Books Routes
     Route::prefix('user-book')->name('user-books.')->group(function () {

@@ -83,9 +83,13 @@ class BookTrackerController extends Controller
         return view('book_tracker.edit', compact('books', 'tracker'));
     }
 
-    public function update(Request $request, BookUser $bookUser)
+    public function update(Request $request, $id)
     {
-        if ($bookUser->user_id !== auth()->id()) {
+        $bookUser = BookUser::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$bookUser) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -104,6 +108,7 @@ class BookTrackerController extends Controller
             'started_at' => $request->started_at,
             'finished_at' => $request->finished_at,
         ]);
+
         return redirect()->route('book-trackers.index')->with('success', 'Progres buku berhasil diperbarui.');
     }
 
@@ -132,14 +137,20 @@ class BookTrackerController extends Controller
         $bookUser->save();
     }
 
-    public function destroy(BookUser $bookUser)
+    public function destroy($id)
     {
-        if ($bookUser->user_id !== auth()->id()) {
+        $bookUser = BookUser::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$bookUser) {
             abort(403, 'Unauthorized action.');
         }
 
+        // Hapus data bookUser
         $bookUser->delete();
 
         return redirect()->route('book-trackers.index')->with('success', 'Progres buku berhasil dihapus.');
     }
+
 }

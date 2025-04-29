@@ -34,7 +34,7 @@
             </div>
 
             <!-- Sidebar -->
-            <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="bg-white rounded-[4px] shadow-md p-6">
                 <div class="flex items-center justify-center mb-6 text-gray-600 text-sm">
                     <span class="text-yellow-400">⭐</span>
                     <span class="ml-2">{{ $book->average_rating ?? '4.1' }} · {{ $book->reviews ?? '6756' }}
@@ -42,7 +42,7 @@
                 </div>
 
                 <button
-                    class="w-full flex items-center justify-center gap-2 bg-[#875C1A] hover:bg-[#704b15] text-white font-semibold py-3 rounded-md mb-4 transition-all">
+                    class="w-full flex items-center justify-center gap-2 bg-[#875C1A] hover:bg-[#704b15] text-white font-semibold py-3 rounded-[4px] mb-4 transition-all">
                     Want to read
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -51,7 +51,7 @@
                 </button>
 
                 <button
-                    class="w-full flex items-center justify-center gap-2 border border-[#875C1A] text-[#875C1A] font-semibold py-3 rounded-md hover:bg-amber-50 transition-all">
+                    class="w-full flex items-center justify-center gap-2 border border-[#875C1A] text-[#875C1A] font-semibold py-3 rounded-[4px] hover:bg-amber-50 transition-all">
                     Buy now
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

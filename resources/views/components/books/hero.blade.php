@@ -32,10 +32,33 @@
             </div>
         </div>
 
-        <div class="bg-[#379A96] rounded-lg flex justify-center items-center p-10">
-            {{-- <img src="{{ asset('storage/' . ($book->cover_image ?? 'book_show_1.png')) }}" alt="{{ $book->title }}" --}}
-              <img src="{{ asset('book_show_1.png') }}" alt="{{ $book->title }}"
-                class="max-h-90 shadow-lg transform rotate-6">
+        <div id="bg-container" class="rounded-[4px] flex justify-center items-center p-10">
+            <img id="book-cover" src="{{ asset('storage/' . $book->cover_image) }}" alt="{{ $book->title }}"
+                class="max-h-90 shadow-lg transform rotate-6" crossorigin="anonymous">
         </div>
+
+        {{-- berguna sebagai pengambilan warna bg dari warna buku foto(img) --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const img = document.getElementById('book-cover');
+                const container = document.getElementById('bg-container');
+
+                function applyColor() {
+                    if (img.complete && img.naturalHeight !== 0) {
+                        try {
+                            const colorThief = new ColorThief();
+                            const color = colorThief.getColor(img);
+                            container.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                        } catch (e) {
+                            console.error('Gagal ambil warna:', e);
+                        }
+                    } else {
+                        setTimeout(applyColor, 100);
+                    }
+                }
+                applyColor();
+            });
+        </script>
     </div>
 </section>

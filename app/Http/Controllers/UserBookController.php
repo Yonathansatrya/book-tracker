@@ -75,16 +75,32 @@ class UserBookController extends Controller
 
     public function edit(UserBook $userBook)
     {
+        if ($userBook->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $book = $userBook->book;
         $genres = Genre::all();
         $authors = Author::all();
+
         return view('user_books.edit', compact('userBook', 'book', 'genres', 'authors'));
     }
 
     public function update(Request $request, $id)
     {
-        $userBook = UserBook::where('user_id', auth()->id())->where('id', $id)->firstOrFail();
+        $userBook = UserBook::where('user_id', auth()->id())
+            ->where('id', $id)
+            ->firstOrFail();
+
         $book = $userBook->book;
+
+        $otherUsersCount = UserBook::where('book_id', $book->id)
+            ->where('user_id', '!=', auth()->id())
+            ->count();
+
+        if ($otherUsersCount > 0) {
+            abort(403, 'Unauthorized: Buku ini juga digunakan user lain.');
+        }
 
         $request->validate([
             'title' => 'required|string|max:255|unique:books,title,' . $book->id,
@@ -129,7 +145,12 @@ class UserBookController extends Controller
 
     public function destroy($id)
     {
-        $userBook = UserBook::where('user_id', auth()->id())->where('id', $id)->firstOrFail();
+        $userBook = UserBook::findOrFail($id);
+
+        if ($userBook->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized access to this book.');
+        }
+
         $book = $userBook->book;
 
         $otherUsersCount = UserBook::where('book_id', $book->id)

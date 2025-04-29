@@ -10,6 +10,8 @@
     <title>@yield('title', 'Goodreads')</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.core.js"></script>
 </head>
 
 <body class="font-Outfit">
@@ -23,10 +25,10 @@
 
             @auth
                 <div class="hidden px-8 md:flex gap-x-6 items-center">
-                    <a href="{{ route('dashboard.user') }}" class="text-sm font-semibold text-black hover:text-[#875C1A] text-u">Home</a>
-                    <a href="{{ route('my-books') }}" class="text-sm font-semibold text-black">My Books</a>
-                    <a href="{{ route('search') }}" class="text-sm font-semibold text-black">Browse</a>
-                    <a href="#" class="text-sm font-semibold text-black">Community</a>
+                    <a href="{{ route('dashboard.user') }}" class="text-sm font-semibold text-black hover:text-[#875C1A] underline">Home</a>
+                    <a href="{{ route('my-books') }}" class="text-sm font-semibold text-black hover:text-[#875C1A] underline">My Books</a>
+                    <a href="{{ route('search') }}" class="text-sm font-semibold text-black hover:text-[#875C1A] underline">Browse</a>
+                    <a href="#" class="text-sm font-semibold text-black hover:text-[#875C1A] underline">Community</a>
                 </div>
             @endauth
 
@@ -100,9 +102,9 @@
         <div id="mobile-menu" class="hidden lg:hidden px-6 mt-2 space-y-2 pb-4">
             @auth
                 <a href="{{ route('dashboard.user') }}" class="block text-sm font-semibold text-black">Home</a>
-                <a href="{{ route('genres.index') }}" class="block text-sm font-semibold text-black">My Books</a>
-                <a href="{{ route('books.index') }}" class="block text-sm font-semibold text-black">Browse</a>
-                <a href="{{ route('books.index') }}" class="block text-sm font-semibold text-black">Community</a>
+                <a href="{{ route('my-books') }}" class="block text-sm font-semibold text-black">My Books</a>
+                <a href="{{ route('search') }}" class="block text-sm font-semibold text-black">Browse</a>
+                <a href="#" class="block text-sm font-semibold text-black">Community</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="w-full text-left text-sm font-semibold text-black">Sign Out</button>

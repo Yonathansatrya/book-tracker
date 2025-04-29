@@ -34,9 +34,9 @@
 
                     <div class="flex items-center mt-3 space-x-2">
                         <input type="text" placeholder="Your Bookshelf Name"
-                            class="w-full px-2 py-1 text-sm bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-amber-500" />
+                            class="w-full px-2 py-1 text-sm bg-gray-100 rounded-[4px] focus:outline-none focus:ring-2 focus:ring-amber-500" />
                         <a href="{{ route('user-books.create') }}"
-                            class="px-3 py-1 bg-amber-700 text-white text-sm rounded hover:bg-amber-800">Add</a>
+                            class="px-3 py-1 bg-amber-700 text-white text-sm rounded-[4px] hover:bg-amber-800">Add</a>
                     </div>
                 </li>
 

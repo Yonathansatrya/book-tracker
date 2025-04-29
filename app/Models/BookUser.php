@@ -9,6 +9,7 @@ class BookUser extends Model
 {
     use HasFactory;
 
+    protected $table = 'book_users';
     protected $fillable = ['user_id', 'book_id', 'status', 'last_read_page', 'rating', 'started_at', 'finished_at'];
 
     public function book()
