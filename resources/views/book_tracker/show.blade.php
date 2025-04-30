@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Book - ' . $tracker->book->title)
+@section('title', 'Book - ' . $tracker->book->title)
 @section('content')
-    <div class="max-w-7xl mx-auto p-6 bg-white rounded-[4px] shadow">
+    <div class="max-w-7xl mx-auto p-6 bg-white rounded-[4px] shadow mb-5">
         <div class="flex flex-col md:flex-row gap-6">
             <div class="md:w-1/3">
                 <img src="{{ $tracker->book && $tracker->book->cover_image
@@ -102,45 +102,165 @@
         </div>
 
         <div class="mt-8">
-            <div class="">
+            <form id="noteForm" action="{{ route('book-notes.store') }}" method="POST">
+                @csrf
                 <h3 class="text-lg font-semibold mb-2">Tulis Catatan</h3>
-                <div id="quill-editor" class="bg-white rounded border border-gray-300" style="height: 150px;"></div>
-            </div>
-                <h3 class="text-lg font-semibold mt-6 mb-2">Catatan</h3>
-                @if ($tracker->notes->isEmpty())
-                    <p class="text-sm text-gray-500">Belum ada catatan.</p>
-                @else
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        @foreach ($tracker->notes as $note)
-                            <div class="p-4 rounded-[4px] bg-amber-700 shadow-md">
-                                <div class="mb-4">
-                                    <h3 class="text-white text-lg font-semibold">
-                                        Halaman {{ $note->page_start }}
-                                        {{ $note->page_end ? 'sampai ' . $note->page_end : '' }}
-                                    </h3>
-                                    <div class="text-sm text-white">{!! $note->notes !!}</div>
-                                </div>
-                                <div class="flex gap-2">
-                                    <a href="#"
-                                        onclick="showEditNoteModal({{ $note->id }}, {{ $note->page_start }}, {{ $note->page_end ?? 'null' }}, @js($note->notes) )"
-                                        class="px-4 py-1 bg-blue-600 text-white rounded-[4px] hover:bg-blue-700 transition">
-                                        Edit
-                                    </a>
-                                    <form action="{{ route('book-notes.destroy', $note->id) }}" method="POST"
-                                        id="delete-form-{{ $note->id }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" onclick="confirmDelete({{ $note->id }})"
-                                            class="px-4 py-1 bg-red-600 text-white rounded-[4px] hover:bg-red-700 transition">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        @endforeach
+                <div class="grid grid-cols-3 gap-4 mb-2">
+                    <div class="flex flex-col w-full sm:w-auto">
+                        <label for="page_start" class="mb-1 text-sm text-center font-medium text-gray-700">
+                            Halaman Mulai
+                        </label>
+                        <input type="number" name="page_start" id="page_start" required
+                            class="py-2 px-4 shadow-md rounded-[4px] border border-gray-300 focus:ring focus:ring-amber-300 w-full sm:w-auto">
                     </div>
-                @endif
+
+                    <div class="flex items-center justify-center w-full sm:w-auto">
+                        <p class="text-gray-600 font-medium">hingga</p>
+                    </div>
+
+                    <div class="flex flex-col w-full sm:w-auto">
+                        <label for="page_end" class="mb-1 text-sm text-center font-medium text-gray-700">
+                            Halaman Akhir
+                        </label>
+                        <input type="number" name="page_end" id="page_end" placeholder="Opsional"
+                            class="py-2 px-4 shadow-md rounded-[4px] border border-gray-300 focus:ring focus:ring-amber-600 w-full sm:w-auto">
+                    </div>
+                </div>
+                <div id="editor" class="bg-white border border-gray-300 rounded shadow-md mb-4"
+                    style="min-height: 150px;" placeholder="test">
+                </div>
+                {{-- kirimkan isi dari quilljs --}}
+                <input type="hidden" name="notes" id="notes">
+                {{-- ambil id book_user --}}
+                <input type="hidden" name="book_user_id" value="{{ $tracker->id }}">
+
+                <script>
+                    const quill = new Quill('#editor', {
+                        theme: 'snow'
+                    });
+
+                    const form = document.querySelector('#noteForm');
+                    const notesInput = document.getElementById('notes');
+
+                    form.addEventListener('submit', function(e) {
+                        notesInput.value = quill.root.innerHTML;
+                        console.log('Notes value:', notesInput.value);
+                    });
+                </script>
+                <button type="submit"
+                    class="bg-[#875C1A] hover:bg-[#6c4713] text-white font-semibold py-2 px-4 rounded-[4px] transition mt-2">
+                    Submit
+                </button>
+            </form>
         </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto p-6 bg-white rounded-[4px] shadow-lg">
+        <h3 class="text-2xl text-center font-bold mt-6 mb-4 text-[#6c4713]">Catatan</h3>
+
+        @if ($tracker->notes->isEmpty())
+            <p class="text-lg text-[#6c4713]">Belum ada catatan.</p>
+        @else
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                @foreach ($tracker->notes as $note)
+                    <div
+                        class="bg-white p-4 rounded shadow-md space-y-4 hover:scale-[1.01] hover:shadow-md hover:shadow-amber-700 transition-transform duration-400">
+                        <div class="text-xl text-center text-[#6c4713] font-semibold">
+                            Halaman: {{ $note->page_start }} - {{ $note->page_end }}
+                        </div>
+
+                        <div class="prose max-w-none">
+                            {!! $note->notes !!}
+                        </div>
+
+                        <div class="flex justify-between items-center mt-2">
+                            <form action="{{ route('book-notes.destroy', $note->id) }}" method="POST"
+                                id="delete-form-{{ $note->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" onclick="confirmDelete({{ $note->id }})"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-[4px] transition">
+                                    Delete
+                                </button>
+                            </form>
+                            <button onclick="openEditModal({{ $note->id }})"
+                                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-[4px] transition">
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MODAL EDIT -->
+                    <div id="editModal-{{ $note->id }}"
+                        class="fixed inset-0 bg-black/50 bg-opacity-50 z-50 hidden flex items-center justify-center">
+                        <div class="bg-white rounded-lg p-6 w-full max-w-4xl relative">
+                            <button onclick="closeEditModal({{ $note->id }})"
+                                class="absolute top-2 right-2 text-gray-500 text-2xl font-bold"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                    viewBox="0 0 24 24">
+                                    <path fill="#000"
+                                        d="m12 12.708l3.246 3.246q.14.14.344.15t.364-.15t.16-.354t-.16-.354L12.708 12l3.246-3.246q.14-.14.15-.344t-.15-.364t-.354-.16t-.354.16L12 11.292L8.754 8.046q-.14-.14-.344-.15t-.364.15t-.16.354t.16.354L11.292 12l-3.246 3.246q-.14.14-.15.345q-.01.203.15.363t.354.16t.354-.16zM12.003 21q-1.867 0-3.51-.708q-1.643-.709-2.859-1.924t-1.925-2.856T3 12.003t.709-3.51Q4.417 6.85 5.63 5.634t2.857-1.925T11.997 3t3.51.709q1.643.708 2.859 1.922t1.925 2.857t.709 3.509t-.708 3.51t-1.924 2.859t-2.856 1.925t-3.509.709M12 20q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
+                                </svg>
+                            </button>
+
+                            <form id="noteEditForm-{{ $note->id }}"
+                                action="{{ route('book-notes.update', $note->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <h3 class="text-lg text-center font-semibold mb-2 text-[#6c4713]">Edit Catatan</h3>
+
+                                <div class="grid grid-cols-3 gap-4 mb-2">
+                                    <div class="flex flex-col w-full sm:w-auto">
+                                        <label class="mb-1 text-sm text-center font-medium text-gray-700">
+                                            Halaman Mulai
+                                        </label>
+                                        <input type="number" name="page_start" required value="{{ $note->page_start }}"
+                                            class="py-2 px-4 shadow-md rounded-[4px] border border-gray-300 focus:ring focus:ring-amber-300 w-full sm:w-auto">
+                                    </div>
+
+                                    <div class="flex items-center justify-center w-full sm:w-auto">
+                                        <p class="text-gray-600 font-medium">hingga</p>
+                                    </div>
+
+                                    <div class="flex flex-col w-full sm:w-auto">
+                                        <label class="mb-1 text-sm text-center font-medium text-gray-700">
+                                            Halaman Akhir
+                                        </label>
+                                        <input type="number" name="page_end" value="{{ $note->page_end }}"
+                                            class="py-2 px-4 shadow-md rounded-[4px] border border-gray-300 focus:ring focus:ring-amber-600 w-full sm:w-auto">
+                                    </div>
+                                </div>
+
+                                <div id="editor-{{ $note->id }}"
+                                    class="bg-white border border-gray-300 rounded shadow-md mb-4"
+                                    style="min-height: 150px;"></div>
+
+                                <input type="hidden" name="notes" id="edit_notes_{{ $note->id }}">
+                                <input type="hidden" name="book_user_id" value="{{ $note->book_user_id }}">
+
+                                <button type="submit"
+                                    class="bg-[#875C1A] hover:bg-[#6c4713] text-white font-semibold py-2 px-4 rounded-[4px] transition mt-2">
+                                    Simpan Perubahan
+                                </button>
+                            </form>
+
+                            <script>
+                                const quillEdit{{ $note->id }} = new Quill("#editor-{{ $note->id }}", {
+                                    theme: 'snow'
+                                });
+                                quillEdit{{ $note->id }}.root.innerHTML = @json($note->notes);
+
+                                document.querySelector('#noteEditForm-{{ $note->id }}').addEventListener('submit', function() {
+                                    document.querySelector('#edit_notes_{{ $note->id }}').value = quillEdit{{ $note->id }}.root
+                                        .innerHTML;
+                                });
+                            </script>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 
     <script>
@@ -164,48 +284,43 @@
             });
         });
 
-        const quill = new Quill('#editor', {
-            theme: 'snow'
-        });
-
         function confirmDelete(noteId) {
-            const swalWithBootstrapButtons = Swal.mixin({
+            const swalWithTailwindButtons = Swal.mixin({
                 customClass: {
-                    confirmButton: "btn btn-success",
-                    cancelButton: "btn btn-danger"
+                    confirmButton: 'bg-red-600 text-white font-semibold px-4 py-2 rounded-[4px] hover:bg-red-700 transition',
+                    cancelButton: 'bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-[4px] hover:bg-gray-400 transition'
                 },
                 buttonsStyling: false
             });
 
-            swalWithBootstrapButtons.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+            swalWithTailwindButtons.fire({
+                title: "Apakah kamu yakin?",
+                text: "Catatan yang dihapus tidak bisa dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Yes, delete it!",
-                cancelButtonText: "No, cancel!",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + noteId).submit();
-                    swalWithBootstrapButtons.fire({
-                        title: "Deleted!",
-                        text: "Your note has been deleted.",
-                        icon: "success"
-                    });
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Cancelled",
-                        text: "Your note is safe :)",
+                    swalWithTailwindButtons.fire({
+                        title: "Dibatalkan",
+                        text: "Catatan tidak jadi dihapus.",
                         icon: "error"
                     });
                 }
             });
         }
-    </script>
 
-    {{-- di gunakan untuk add notes jangan di hapus --}}
-    <form id="form" method="POST" style="display: none;">
-        @csrf
-    </form>
+        // fucntion modal Edit catatan
+        function openEditModal(id) {
+            document.getElementById(`editModal-${id}`).classList.remove('hidden');
+        }
+
+        function closeEditModal(id) {
+            document.getElementById(`editModal-${id}`).classList.add('hidden');
+        }
+    </script>
 @endsection

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('book_user_id')->constrained()->onDelete('cascade');
             $table->integer('page_start');
-            $table->integer('page_end');
+            $table->integer('page_end')->nullable();
             $table->text('notes');
             $table->timestamps();
         });

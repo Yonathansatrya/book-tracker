@@ -15,7 +15,7 @@ class BookNoteController extends Controller
         $validated = $request->validate([
             'book_user_id' => 'required|exists:book_users,id',
             'page_start' => 'required|integer',
-            'page_end' => 'required|integer|gte:page_start',
+            'page_end' => 'nullable|integer|gte:page_start',
             'notes' => 'required|string',
         ]);
 
@@ -45,7 +45,7 @@ class BookNoteController extends Controller
 
         $validated = $request->validate([
             'page_start' => 'required|integer',
-            'page_end' => 'required|integer|gte:page_start',
+            'page_end' => 'nullable|integer|gte:page_start',
             'notes' => 'required|string',
         ]);
 
